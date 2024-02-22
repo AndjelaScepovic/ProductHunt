@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+  <div class="col-2">
+    <img src="{{ product.icon.url }}" class="img-fluid" />
+  </div>
+  <div class="col-10">
+    <a href="{{ product.url }}"><h1>{{ product.title }}</h1></a>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-8">
+    <img src="{{ product.image.url }}" class="img-fluid" />
+  </div>
+  <div class="col-4">
+      <form id='upvote{{ product.id }}' method="POST" action="{% url 'upvote' product.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-lg btn-block" style="width: 70%;">
+              <img src="{% static 'arrow-up.png' %}" height="25" width="25" class="d-inline-block align-top" alt="Upvote">
+              Upvote {{ product.votes_total }}
+          </button>
+      </form>
+  </div>
+
+</div>
+
+
+<div class="row pt-2">
+  <div class="col-4">
+    <h4>
+      <img src="{% static 'magnifying-glass.png' %}" height="30" width="30" class="d-inline-block align-top">
+      Hunted by {{ product.hunter.username }}
+    </h4>
+  </div>
+  <div class="col-4 text-right">
+    <h4>
+      <img src="{% static 'clock.png' %}" height="25" width="25" class="d-inline-block align-top">
+      {{ product.pub_date_pretty }}</h4>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-8">
+    <p>{{ product.body }}</p>
+  </div>
+</div>
+
+
+<form id='upvote' method="POST" action="{% url 'upvote' product.id %}">
+{% csrf_token %}
+  <input type="hidden">
+</form>
+
+{% endblock %}
